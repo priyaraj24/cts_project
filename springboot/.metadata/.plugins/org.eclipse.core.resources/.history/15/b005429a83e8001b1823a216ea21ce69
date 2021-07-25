@@ -1,0 +1,14 @@
+server.port = 9090
+
+spring.application.name = api-gateway
+
+eureka.client.serviceUrl.defaultZone = http://localhost:8761/eureka
+
+zuul.routes.flight.url = ADMINSERVICE
+zuul.routes.flight.path=/api/admin/**
+
+zuul.routes.user.url = USERSERVICE
+zuul.routes.user.path = /api/user/**
+
+zuul.routes.common.url = COMMONSERVICE
+zuul.routes.common.path = /api/common/**

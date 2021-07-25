@@ -1,0 +1,19 @@
+1626618210444	Rename type 'FightUserApplication'
+1626618868735	Rename type 'AirlineController'
+1626619052190	Delete element
+1626699419442	Rename package 'com.app.FightAdmin'
+1626699475270	Rename package 'com.app.FlightAdmin.Config'
+1626699513067	Rename package 'com.app.FlightAdmin.Constants'
+1626699547452	Rename package 'com.app.FlightCommon'
+1626699592768	Rename package 'com.app.FlightCommonn'
+1626700337538	Rename package 'com.app.FlightAdmin.Util'
+1626700346819	Delete elements
+1626700355210	Delete element
+1626700654240	Rename package 'com.app.FlightAdmin.Controller'
+1626700671967	Rename package 'com.app.FlightAdmin.Dao'
+1626700683112	Rename package 'com.app.FlightAdmin.DaoImpl'
+1626700690381	Delete element
+1626700700836	Rename package 'com.app.FlightAdmin.Model'
+1626700712908	Rename package 'com.app.FlightAdmin.Service'
+1626700726120	Rename package 'com.app.FlightAdmin.ServiceImpl'
+1626700754480	Rename type 'FightCommonApplication'

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aop-reference-model>
+<aop-project name="FlightUser"/>
+<aop-project name="FlightAdmin"/>
+<aop-project name="security"/>
+<aop-project name="FlightCommon"/>
+<aop-project name="EurekaServer"/>
+<aop-project name="api-gateway"/>
+</aop-reference-model>

@@ -1,0 +1,26 @@
+server:
+   port: 9090
+
+
+spring:
+   application:
+      name: api-gateway
+      
+eureka:
+   client:
+      serviceUrl:
+         defaultZone: http://localhost:9091/eureka/
+
+ 
+
+zuul:  
+   routes:
+     ADMINSERVICE:    
+         path: /api/admin/**
+         url:  ADMINSERVICE
+     USERSERVICE:
+         path: /api/user/**
+         url:  USERSERVICE
+     COMMONSERVICE:
+         path: /api/common/**
+         url:  COMMONSERVICE

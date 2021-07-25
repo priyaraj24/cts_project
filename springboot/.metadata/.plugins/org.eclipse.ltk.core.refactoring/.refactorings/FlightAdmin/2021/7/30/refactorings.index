@@ -1,0 +1,18 @@
+1626610105849	Rename package 'com.app.FlightBooking.Config'
+1626613958002	Rename package 'com.app.FlightBooking.Constants'
+1626613972929	Rename package 'com.app.FlightBooking.Controller'
+1626613987678	Rename package 'com.app.FlightBooking.Dao'
+1626614005552	Rename package 'com.app.FlightBooking.DaoImpl'
+1626614022964	Rename package 'com.app.FlightBooking.Exception'
+1626614040221	Rename package 'com.app.FlightBooking.Model'
+1626614053825	Rename package 'com.app.FlightBooking.Service'
+1626614069623	Rename package 'com.app.FlightBooking.ServiceImpl'
+1626614087347	Rename package 'com.app.FlightBooking.Util'
+1626639323473	Copy packages
+1626639333668	Copy packages
+1626639379900	Copy compilation unit
+1626639391552	Copy compilation unit
+1626697317492	Rename package 'com.app.FightAdmin'
+1626697342032	Rename package 'com.app.FightAdmin.Request'
+1626697370178	Delete element
+1626699061082	Rename type 'FightAdminApplication'

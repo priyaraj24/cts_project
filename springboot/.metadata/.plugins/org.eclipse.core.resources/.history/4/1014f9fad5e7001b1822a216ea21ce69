@@ -1,0 +1,12 @@
+package com.app.FlightAdmin.DaoImpl;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.app.FlightAdmin.Dao.UserDao;
+
+@Repository
+@Transactional
+public class UserDaoImpl implements UserDao {
+
+}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;User.java&apos; to &apos;FightCommon/src/main/java/com.app.FlightAdmin.Model&apos;&#x0D;&#x0A;- Original project: &apos;CommonService&apos;&#x0D;&#x0A;- Destination element: &apos;FightCommon/src/main/java/com.app.FlightAdmin.Model&apos;&#x0D;&#x0A;- Original element: &apos;com.app.FlightBooking.Model.User.java&apos;" description="Copy compilation unit" destination="=FightCommon/src\/main\/java&lt;com.app.FlightAdmin.Model" element1="/src\/main\/java&lt;com.app.FlightBooking.Model{User.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1626618540631" units="1" version="1.0"/>
+</session>

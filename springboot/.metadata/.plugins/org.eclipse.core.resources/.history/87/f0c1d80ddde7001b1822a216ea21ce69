@@ -1,0 +1,28 @@
+package com.app.FlightAdmin.DaoImpl;
+
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.app.FlightAdmin.Dao.UserDao;
+import com.app.FlightAdmin.Model.User;
+
+@Repository
+@Transactional
+public class UserDaoImpl implements UserDao {
+
+	@Autowired
+	SessionFactory sessionFactory;
+
+	public void registerUser(User userObj) {
+		this.sessionFactory.getCurrentSession().saveOrUpdate(userObj);
+	}
+
+	@Override
+	public boolean fetchUser(User userObj) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}

@@ -1,0 +1,21 @@
+package com.app.FlightAdmin;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+
+//@SpringBootApplication
+//@EnableEurekaClient
+//@ComponentScan(basePackages = { "com.app.FlightAdmin" })
+//@EntityScan(basePackages = { "com.app.FlightAdmin" })
+@SpringBootApplication(exclude = { HibernateJpaAutoConfiguration.class })
+public class FightAdminApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(FightAdminApplication.class, args);
+	}
+	
+	
+
+
+}

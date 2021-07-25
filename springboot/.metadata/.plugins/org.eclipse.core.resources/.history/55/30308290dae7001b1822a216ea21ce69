@@ -1,0 +1,5 @@
+package com.app.FlightAdmin.Dao;
+
+public interface UserDao {
+
+}

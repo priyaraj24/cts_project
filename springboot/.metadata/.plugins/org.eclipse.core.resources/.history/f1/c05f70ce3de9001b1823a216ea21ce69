@@ -1,0 +1,5 @@
+package com.demo.security.util;
+
+public class JwtAuthenticationEntryPoint {
+
+}

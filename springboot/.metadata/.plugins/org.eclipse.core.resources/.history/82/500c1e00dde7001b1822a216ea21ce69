@@ -1,0 +1,13 @@
+package com.app.FlightAdmin.Dao;
+
+import java.util.List;
+
+import com.app.FlightAdmin.Model.User;
+
+public interface UserDao {
+
+	public void registerUser(User userObj);
+
+	public boolean fetchUser(userObj);
+
+}

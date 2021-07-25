@@ -1,0 +1,5 @@
+package com.app.FlightAdmin.Service;
+
+public interface UserService {
+
+}

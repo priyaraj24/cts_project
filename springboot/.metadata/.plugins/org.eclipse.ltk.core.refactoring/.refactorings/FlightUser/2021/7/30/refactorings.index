@@ -1,0 +1,12 @@
+1626614292579	Rename type 'FightAdminApplication'
+1626699165107	Rename package 'com.app.FightAdmin'
+1626699184498	Delete elements
+1626699214852	Rename package 'com.app.FightAdmin'
+1626699226476	Delete element
+1626699248011	Rename package 'com.app.FlightAdmin'
+1626699278634	Delete elements
+1626699310343	Rename package 'com.app.FlightAdmin.Config'
+1626699326758	Rename package 'com.app.FlightAdmin.Constants'
+1626699342309	Rename package 'com.app.FlightAdmin.Controller'
+1626699363674	Rename package 'com.app.FlightAdmin.Util'
+1626699379017	Rename type 'FightUserApplication'
