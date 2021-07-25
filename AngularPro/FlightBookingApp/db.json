@@ -1,0 +1,169 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  },
+  "users": [
+    {
+      "id": 1,
+      "name": "admin",
+      "username": "admin",
+      "password": "admin@123",
+      "role": "ADMIN"
+    },
+    {
+      "id": 2,
+      "name": "bhb",
+      "username": "nnmm",
+      "password": "m,n",
+      "role": "USER"
+    },
+    {
+      "name": "hjhg",
+      "username": "jjhh",
+      "password": "kmj ",
+      "role": "USER",
+      "id": 3
+    },
+    {
+      "name": "priya",
+      "username": "priya@gmail.com",
+      "password": "priya123 ",
+      "role": "USER",
+      "id": 4
+    },
+    {
+      "username": "dhiya",
+      "password": "dhiya",
+      "role": "USER",
+      "id": 5
+    },
+    {
+      "username": "riya",
+      "password": "riya",
+      "role": "USER",
+      "id": 6
+    }
+  ],
+  "airlines": [
+    {
+      "airlineName": "Air India",
+      "contactNumber": "6789876541",
+      "contactAddress": "chennai",
+      "logo": "AIR-India.jpg",
+      "id": 1
+    },
+    {
+      "airlineName": "Deccan",
+      "contactNumber": "9879876541",
+      "contactAddress": "cbe",
+      "logo": "decaan.gif",
+      "id": 2
+    },
+    {
+      "airlineName": "Dhiya-airline",
+      "contactNumber": "8765432190",
+      "contactAddress": "coimbatore",
+      "logo": "temp.jpg",
+      "id": 3
+    }
+  ],
+  "flights": [
+    {
+      "flightNumber": "DECC_FLY",
+      "flightName": "Dec_Flight1",
+      "airlineId": 2,
+      "id": 3
+    },
+    {
+      "flightNumber": "MM234",
+      "flightName": "airline-flight",
+      "airlineid": 1,
+      "id": 3
+    },
+    {
+      "flightName": "sdsds",
+      "flightNumber": "shdgghda",
+      "airlineId": "1",
+      "id": 4
+    },
+    {
+      "flightName": "hhjjjj",
+      "flightNumber": "hhjjj",
+      "airlineId": "2",
+      "id": 5
+    },
+    {
+      "flightName": "dddddd",
+      "flightNumber": "ggg",
+      "airlineId": 2,
+      "id": 6
+    },
+    {
+      "flightName": "ggggg",
+      "flightNumber": "ggg",
+      "airlineId": 1,
+      "id": 7
+    }
+  ],
+  "departure": [
+    {
+      "from": "CHN",
+      "to": "CBE",
+      "arrival": "2021-06-29T10:00",
+      "departure": "2021-06-29T11:00",
+      "price": "400",
+      "flightid": 1,
+      "id": 1
+    },
+    {
+      "from": "CBE",
+      "to": "CHN",
+      "arrival": "2021-06-29T01:00",
+      "departure": "2021-07-02T02:00",
+      "price": "400",
+      "flightid": 1,
+      "id": 2
+    }
+  ],
+  "discounts": [
+    {
+      "id": 1,
+      "discountName": "July offer",
+      "discountCode": "FRST150",
+      "price": 150
+    },
+    {
+      "id": 2,
+      "discountName": "NEW offer",
+      "discountCode": "BUY!GET!",
+      "price": 500
+    },
+    {
+      "id": 3,
+      "discountName": "Get first",
+      "discountCode": "SECOND",
+      "price": 15
+    },
+    {
+      "discountName": "freeOff",
+      "discountCode": "FREE100",
+      "price": "100",
+      "id": 4
+    }
+  ],
+  "bookflight": []
+}

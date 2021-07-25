@@ -1,0 +1,119 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+  ,
+    "users": [
+      {
+        "id": 1,
+      	"name": "admin",
+        "username": "admin",
+        "password": "admin@123",
+        "role": "ADMIN"
+      },
+      {
+        "id": 2,
+        "name": "bhb",
+        "username": "nnmm",
+        "password": "m,n",
+        "role": "USER"
+      },
+      {
+        "name": "priya",
+        "username": "priya@gmail.com",
+        "password": "priya123 ",
+        "role": "USER",
+        "id": 3
+      }
+    ],
+    "airlines": [
+      {
+        "airlineName": "Air India",
+        "contactNumber": "9879876541",
+        "contactAddress": "Ooty",
+        "logo": "AIR-India.jpg",
+        "id": 1
+      },
+      {
+        "airlineName": "Deccan",
+        "contactNumber": "9879876541",
+        "contactAddress": "cbe",
+        "logo": "decaan.gif",
+        "id": 2
+      }
+    ],
+    "flights": [
+      {
+        "flightnumber": "FZ234",
+        "flightname": "aaaa",
+        "airlineid":1,
+        "id": 1
+      },
+      {
+        "flightnumber": "AZ564",
+        "flightname": "bbb",
+        "airlineid":1,
+        "id": 2
+      },
+      {
+        "flightnumber": "MM234",
+        "flightname": "def",
+        "airlineid":2,
+        "id": 3
+      }
+    ],
+    
+    "departure":
+    [
+      {
+        "from": "CHN",
+        "to": "CBE",
+        "arrival": "2021-06-29T10:00",
+        "departure": "2021-06-29T11:00",
+        "price": "400",
+        "flightid":1,
+        "id": 1
+      },
+      {
+        "from": "CBE",
+        "to": "CHN",
+        "arrival": "2021-06-29T01:00",
+        "departure": "2021-07-02T02:00",
+        "price": "400",
+        "flightid":1,
+        "id": 2
+      }
+    ],
+    "discounts": [
+      {
+        "id": 1,
+        "code": "FRST150",
+        "discount": 50
+      },
+      {
+        "id": 2,
+        "code": "THIRTY",
+        "discount": 30
+      },
+      {
+        "id": 3,
+        "code": "SECOND",
+        "discount": 15
+      }
+    ]
+  
+}
