@@ -1,0 +1,5 @@
+package com.app.FlightAdmin.Config;
+
+public class KafkaConsumerListerner {
+
+}

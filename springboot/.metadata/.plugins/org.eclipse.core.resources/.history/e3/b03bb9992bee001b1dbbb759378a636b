@@ -1,0 +1,14 @@
+package com.app.FlightAdmin.Service;
+
+import java.util.List;
+
+import com.app.FlightAdmin.Model.Airline;
+import com.app.FlightAdmin.Request.DepartureRequest;
+
+public interface DepartureService {
+
+	public List<Departure> fetchAllFlights();
+
+	public void processFlightData(DepartureRequest dept);
+
+}

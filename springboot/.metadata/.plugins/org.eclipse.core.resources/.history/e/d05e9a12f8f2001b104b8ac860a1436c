@@ -1,0 +1,18 @@
+package com.app.FlightAdmin.Service;
+
+import java.util.List;
+
+import com.app.FlightAdmin.Model.Airline;
+import com.app.FlightAdmin.Model.BookFlight;
+
+public interface AirlineService {
+
+	public void saveAirline(Airline airline);
+
+	public List<Airline> fetchAllAirlines();
+
+	public void updateAirline(Airline airline);
+
+	public void getKafkaData(BookFlight bookings);
+
+}

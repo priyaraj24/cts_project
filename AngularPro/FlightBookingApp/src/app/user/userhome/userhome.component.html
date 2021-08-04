@@ -1,0 +1,20 @@
+<p-splitter [style]="{'height': '500px'}" [panelSizes]="[20,80]" [minSizes]="[10,0]" styleClass="p-mb-5">
+    <ng-template pTemplate>
+        <div class="p-col p-d-flex p-ai-center p-jc-center">
+          <div id="align">
+            <app-usernav></app-usernav>
+          </div> 
+        </div>
+    </ng-template>
+    <ng-template pTemplate>
+        <p-splitter layout="vertical" [panelSizes]="[15,85]">
+            <ng-template pTemplate>
+                <div class="p-col p-d-flex p-ai-center p-jc-center">
+                    <div id="align1">
+                         <router-outlet></router-outlet>
+                    </div>
+                </div>
+            </ng-template>
+        </p-splitter>
+    </ng-template>
+</p-splitter>

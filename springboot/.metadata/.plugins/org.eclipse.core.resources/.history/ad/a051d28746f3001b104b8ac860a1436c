@@ -1,0 +1,49 @@
+package com.app.FlightAdmin.ServiceImpl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.app.FlightAdmin.Dao.DepartureDao;
+import com.app.FlightAdmin.Dao.FlightDao;
+import com.app.FlightAdmin.Model.Departure;
+import com.app.FlightAdmin.Request.DepartureRequest;
+import com.app.FlightAdmin.Service.DepartureService;
+
+@Service
+public class DepartureServiceImpl implements DepartureService {
+
+	@Autowired
+	DepartureDao departureDao;
+
+	@Autowired
+	FlightDao flightDao;
+
+	@Override
+	public List<Departure> fetchAllDept() {
+		return this.departureDao.fetchAllDept();
+	}
+
+	@Override
+	public void processDeptData(DepartureRequest dept) {
+		Departure departure = new Departure();
+
+		departure.setDepartureFrom(dept.getDepartureFrom());
+		if (dept.getFrom() != null) {
+			departure.setDepartureFrom(dept.getFrom());
+		}
+		departure.setDepartureTo(dept.getDepartureTo());
+		if (dept.getTo() != null) {
+			departure.setDepartureFrom(dept.getFrom());
+		}
+		departure.setDeparture(dept.getDeparture());
+		departure.setArrival(dept.getArrival());
+		departure.setPrice(dept.getPrice());
+		departure.setFlight(flightDao.findById(dept.getFlightId()));
+		if (dept.getDepartureId() != 0) {
+			departure.setDepartureId(dept.getDepartureId());
+		}
+		departureDao.saveDeparture(departure);
+	}
+}

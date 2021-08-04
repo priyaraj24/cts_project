@@ -1,0 +1,52 @@
+package com.app.FlightAdmin.ServiceImpl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.app.FlightAdmin.Dao.AirlineDao;
+import com.app.FlightAdmin.Dao.FlightDao;
+import com.app.FlightAdmin.Dao.FlightRepo;
+import com.app.FlightAdmin.Model.Airline;
+import com.app.FlightAdmin.Model.Flight;
+import com.app.FlightAdmin.Request.FlightRequest;
+import com.app.FlightAdmin.Service.FlightService;
+
+@Service
+public class FlightServiceImpl implements FlightService {
+
+	@Autowired
+	FlightDao FlightDao;
+	
+	@Autowired
+	AirlineDao airDao;
+	
+	@Autowired
+	FlightRepo flightRepo;
+
+	@Override
+	public void saveFlight(Flight flight, int id) {
+		Airline airline =new Airline();
+		airline= this.airDao.findById(id);
+		flight.setAirline(airline);
+		this.FlightDao.saveFlight(flight);
+	}
+
+	@Override
+	public List<Flight> fetchAllFlights() {
+		return this.FlightDao.getAllflights();
+	}
+
+	@Override
+	public Flight processFlightData(FlightRequest req) {
+		Flight obj = new Flight();
+		obj.setDeparture(req.getDeparture().size()>0?req.getDeparture():new ArrayList<>());
+		obj.setFlightName(req.getFlightName());
+		obj.setFlightNumber(req.getFlightNumber());
+		obj.setFlightId(req.getFlightId());
+		return obj;
+	}
+
+}

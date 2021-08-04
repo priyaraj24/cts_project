@@ -1,0 +1,66 @@
+package com.app.FlightUser.ReqRes;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+public class BookingRequest {
+
+	private String type;
+
+	private String from;
+	
+	private String to;
+	
+	private String onwards;
+	
+	@JsonIgnore
+	private String towards;
+	
+	
+
+	public String getTo() {
+		return to;
+	}
+
+	public void setTo(String to) {
+		this.to = to;
+	}
+
+	public String getOnwards() {
+		return onwards;
+	}
+
+	public void setOnwards(Date onwards) {
+		DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+		this.towards = df.format(towards);
+	}
+
+	public String getTowards() {
+		return towards;
+	}
+
+	public void setTowards(Date towards) {
+		DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+		this.towards = df.format(towards);
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getFrom() {
+		return from;
+	}
+
+	public void setFrom(String from) {
+		this.from = from;
+	}
+
+}

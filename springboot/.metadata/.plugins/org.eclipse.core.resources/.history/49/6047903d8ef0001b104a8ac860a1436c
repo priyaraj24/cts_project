@@ -1,0 +1,8 @@
+package com.app.FightAdmin;
+
+import org.junit.runner.RunWith;
+
+@RunWith(MockitoJUnitRunner.class)
+public class UserControllerTests {
+
+}

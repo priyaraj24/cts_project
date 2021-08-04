@@ -1,0 +1,5 @@
+package com.app.FlightUser.Config;
+
+public class KafkaProducerConfiguration {
+
+}

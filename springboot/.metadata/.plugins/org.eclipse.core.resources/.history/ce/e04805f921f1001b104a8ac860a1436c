@@ -1,0 +1,65 @@
+package com.app.FightAdmin;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.when;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.ResponseEntity;
+
+import com.app.FlightAdmin.Controller.UserController;
+import com.app.FlightAdmin.Dao.UserDao;
+import com.app.FlightAdmin.Model.User;
+
+@ExtendWith(MockitoExtension.class)
+@RunWith(JUnitPlatform.class)
+class UserControllerTests {
+
+	@InjectMocks
+	UserController userController;
+
+	@Mock
+	UserDao userDao;
+
+	@BeforeEach
+	void setUp() throws Exception {
+	}
+
+	@Test
+	void testRegister() {
+		User userObj = new User();
+		when(userDao.fetchUser(userObj)).thenReturn(userObj);
+
+		ResponseEntity<Object> responseEntity = userController.login(new User());
+		Map<String, Object> response = new HashMap<>();
+		response = (Map<String, Object>) responseEntity.getBody();
+
+		// postive case
+		assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
+		assertThat(responseEntity.hasBody()).isEqualTo(true);
+		assertThat(response.get("message")).isEqualTo("Success");
+		assertThat(response.get("user")).isEqualTo(User.class);
+
+		// negative case
+		assertThat(responseEntity.getStatusCodeValue()).isNotEqualTo(500);
+		assertThat(responseEntity.hasBody()).isNotEqualTo(false);
+		assertThat(response.get("message")).isNotEqualTo("INTERNAL SERVER ERROR");
+		assertThat(response.get("user")).isNotEqualTo(null);
+	}
+
+	@Test
+	void testLogin() {
+		fail("Not yet implemented");
+	}
+
+}

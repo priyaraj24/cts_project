@@ -1,0 +1,5 @@
+package com.app.FlightUser.Model;
+
+public class Passenger {
+
+}

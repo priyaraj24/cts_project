@@ -1,0 +1,158 @@
+   <p-table [value]="e1" dataKey="id" editMode="row">
+                <ng-template pTemplate="caption">
+                    <div id="temp">
+                        <div class="p-d-flex p-ai-center p-jc-between">
+                            <p-button icon="pi pi-plus" label="Add Airline" (click)="showBasicDialog2()"> </p-button>
+                            
+                            <p-dialog header="Add Airline" [(visible)]="displayBasic2" [style]="{width: '50vw'}" [baseZIndex]="10000">
+                                
+                                <!-- Start Add -->
+                                <p-panel >
+                                    <!-- <ng-template pTemplate="header">
+                                    REGISTER USER 
+                                    </ng-template> -->
+                                    <div class="card">
+                                    
+                                    <div class="card-body">
+                                        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                                            <div class="form-group">
+                                                <label for="airlineName" style="color: black;">Airline Name</label>
+                                                <input type="text" formControlName="airlineName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.airlineName.errors }" />
+                                                <div *ngIf="submitted && f.airlineName.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.airlineName.errors.required">AirlineName is required</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="contactAddress" style="color: black;">Contact Address</label>
+                                                <input type="text" formControlName="contactAddress" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.contactAddress.errors }" />
+                                                <div *ngIf="submitted && f.contactAddress.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.contactAddress.errors.required">contactAddress is required</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="contactNumber" style="color: black;">Contact Number</label>
+                                                <input type="text" formControlName="contactNumber" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.contactNumber.errors }" />
+                                                <div *ngIf="submitted && f.contactNumber.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.contactNumber.errors.required">contactNumber is required</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="logo" style="color: black;">Logo URL</label>
+                                                <input type="text" formControlName="logo" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.logo.errors }" />
+                                                <div *ngIf="submitted && f.logo.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.logo.errors.required">logo is required</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <button class="btn btn-primary" style="margin-top: 20px;">
+                                                    Save Airline
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                
+                                </p-panel>
+
+                                <!-- End Add -->
+
+                                <!-- <ng-template pTemplate="footer">
+                                    <p-button icon="pi pi-check" (click)="displayBasic2=false" label="Yes" class="p-button-text"></p-button>
+                                    <p-button icon="pi pi-times" (click)="displayBasic2=false" label="No"></p-button>
+                                </ng-template> -->
+                            </p-dialog>
+                        </div>
+                    </div>
+                    <div class="p-d-flex p-ai-center p-jc-between">
+                        AIRLINE DETAILS
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th></th>
+                        <th>Airline Id</th>
+                        <th>Logo</th>
+                        <th>Airline Name</th>
+                        <th>Contact</th>
+                        <th>Address</th>
+                        <th>Action</th>
+                       
+                    </tr>
+                </ng-template>
+                 <ng-template pTemplate="body" let-temp let-editing="editing" let-ri="rowIndex">
+                    <tr [pEditableRow]="temp">
+                        <td> 
+                            <p-toast></p-toast>
+                            <p-confirmPopup></p-confirmPopup>
+                            <p-button id="alignn" icon="pi pi-trash" (click)="handleDelete($event,temp.airlineId)"></p-button>
+                        
+                        </td>
+
+                        <td>
+                            {{temp.airlineId}}
+                        </td>
+                        
+                        <td>
+                            <img [src]="'assets/images/' + temp.logo" [alt]="temp.logo" width="100" class="p-shadow-4" />
+                        </td>
+
+                       <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" [(ngModel)]="temp.airlineName">
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{temp.airlineName}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        
+                       <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" [(ngModel)]="temp.contactNumber">
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{temp.contactNumber}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        
+                       <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="text" [(ngModel)]="temp.contactAddress">
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{temp.contactAddress}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td style="text-align:center">
+                            <p-button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" label="Edit" (click)="onRowEditInit(temp)" class="p-button-rounded p-button-text"></p-button>
+                            <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(temp)" class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
+                            <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(temp, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
+                        </td>
+                        <!-- <td>
+                            
+                            <p-button icon="pi pi-user-edit" label="Edit" (click)="showBasicDialog1()"></p-button>  
+                            <p-dialog header="Edit Airline" [(visible)]="displayBasic1" [style]="{width: '50vw'}" [baseZIndex]="10000">
+                                <<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
+                                    culpa qui officia deserunt mollit anim id est laborum.
+                                </p>
+                                <app-add-airlines></app-add-airlines>
+
+                                <ng-template pTemplate="footer">
+                                    <p-button icon="pi pi-check" (click)="displayBasic1=false" label="Yes" class="p-button-text"></p-button>
+                                    <p-button icon="pi pi-times" (click)="displayBasic1=false" label="No"></p-button>
+                                </ng-template>
+                            </p-dialog>
+                        </td> -->
+                        
+                    </tr>
+                </ng-template>     
+</p-table>

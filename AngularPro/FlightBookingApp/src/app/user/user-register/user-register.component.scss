@@ -1,0 +1,13 @@
+#resizee{
+	padding-left: 300px;
+	padding-right: 300px;
+	padding-top: 300px;
+	padding-bottom: 300px;
+}
+
+@media screen and (min-width: 600px) {  
+	.center-login {
+	  width: 600px;
+	  margin: 0 auto;
+	}
+  }

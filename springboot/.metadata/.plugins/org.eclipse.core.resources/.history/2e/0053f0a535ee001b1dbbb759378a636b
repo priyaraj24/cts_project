@@ -1,0 +1,17 @@
+package com.app.FlightAdmin.Dao;
+
+import java.util.List;
+
+import com.app.FlightAdmin.Model.Departure;
+
+public interface DepartureDao {
+
+	public void saveDeparture(Departure departure);
+
+	public List<Departure> fetchAllFlights();
+  
+	public Departure findById(int id);
+
+	
+
+}

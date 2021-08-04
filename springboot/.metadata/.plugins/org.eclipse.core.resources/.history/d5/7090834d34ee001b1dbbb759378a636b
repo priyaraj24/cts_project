@@ -1,0 +1,24 @@
+package com.app.FlightAdmin.Dao;
+
+import java.util.List;
+
+import com.app.FlightAdmin.Model.Departure;
+import com.app.FlightAdmin.Model.Flight;
+
+public interface FlightDao {
+
+	public void saveFlight(Flight flight);
+
+	public boolean delete(Flight airlineId);
+
+	public Flight findById(int flightId);
+
+	public List<Flight> getAllflights();
+
+	public String fetchAirlineNameByFlightid(int id);
+
+	public int fetchAirlineIdByFlightid(int id);
+
+	public List<Departure> fetchAllFlights();
+
+}

@@ -1,0 +1,11 @@
+package com.demo.security.dao;
+
+import com.app.FlightAdmin.Model.User;
+
+public interface UserDao {
+
+	public void registerUser(User userObj);
+
+	public User fetchUser(User userObj);
+
+}

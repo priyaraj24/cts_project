@@ -1,0 +1,51 @@
+package com.app.FlightAdmin.Request;
+
+import java.util.List;
+
+import com.app.FlightAdmin.Model.Departure;
+
+public class FlightRequest {
+
+	private int airlineId;
+	
+	private int flightId;
+
+	private String flightName;
+	
+	private String flightNumber;
+	
+	private List<Departure> departure;
+
+	public List<Departure> getDeparture() {
+		return departure;
+	}
+
+	public void setDeparture(List<Departure> departure) {
+		this.departure = departure;
+	}
+
+	public String getFlightNumber() {
+		return flightNumber;
+	}
+
+	public void setFlightNumber(String flightNumber) {
+		this.flightNumber = flightNumber;
+	}
+
+	public int getAirlineId() {
+		return airlineId;
+	}
+
+	public void setAirlineId(int airlineId) {
+		this.airlineId = airlineId;
+	}
+
+	public String getFlightName() {
+		return flightName;
+	}
+
+	public void setFlightName(String flightName) {
+		this.flightName = flightName;
+	}
+
+}

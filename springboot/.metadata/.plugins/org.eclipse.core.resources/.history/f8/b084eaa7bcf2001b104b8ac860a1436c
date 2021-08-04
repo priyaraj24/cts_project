@@ -1,0 +1,117 @@
+package com.demo.security.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.demo.security.reqres.JwtRequest;
+import com.demo.security.reqres.JwtResponse;
+import com.demo.security.service.JwtUserDetailsService;
+import com.demo.security.service.UserService;
+import com.demo.security.util.JwtTokenUtil;
+
+import io.swagger.annotations.ApiOperation;
+
+@RestController
+@CrossOrigin
+public class JwtAuthenticationController {
+
+	@Autowired
+	private AuthenticationManager authenticationManager;
+
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
+
+	@Autowired
+	private JwtUserDetailsService userDetailsService;
+	
+	@Autowired
+	private UserService userService;
+
+
+	// @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+	@PostMapping("/authenticate")
+	@ApiOperation(value = "Authentication Process ", notes = "Authentication happens and if user authenticate return jwt token ")
+	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+
+		if (!userService.checkAccountType(authenticationRequest.getUsername(), authenticationRequest.getRole())) {
+			Map<Object, Object> response = new HashMap<Object, Object>();
+			response.put("status", HttpStatus.UNAUTHORIZED.value());
+			response.put("message", "credentials not match with " + authenticationRequest.getRole());
+			return ResponseEntity.badRequest().body(response);
+		}
+		
+		userDetailsService.authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+		final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+		// final long[] userPermission;
+		//authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+		String username = authenticationRequest.getUsername();
+		if (this.userService.checkUserPrimary(username)) {
+			boolean brandwisdomEnabled = false;
+			String role = authenticationRequest.getRole();
+			if (role.equalsIgnoreCase("advertiser")) {
+				brandwisdomEnabled = this.accountService.checkBrandwisdomEnabled(username);
+			}
+			if (brandwisdomEnabled || role.equalsIgnoreCase("admin")) {
+				values = this.userService.getPermissionsByAccountType(authenticationRequest.getRole());
+			} else {
+				List<Integer> permissionIds = this.userService
+						.getPermissionsByAccountType(authenticationRequest.getRole());
+				// remove brandwisdom ids by filtering
+				values = permissionIds.stream().filter(v -> !brandWisdomIds.contains(v)).collect(Collectors.toList());
+			}
+		} else {
+
+			values = this.userService.getPermissionsByUsername(username);
+			if (authenticationRequest.getRole().equalsIgnoreCase("ADVERTISER")) {
+				// pass username and get parent username
+				Optional<String> parentUsernameOpt = this.accountService.getPrimaryUserNameByChildUserName(username);
+				String parentUsername = "";
+				if (parentUsernameOpt.isPresent()) {
+					parentUsername = parentUsernameOpt.get();
+				}
+
+				boolean brandwisdomNotEnabled = !this.accountService.checkBrandwisdomEnabled(parentUsername);
+				if (brandwisdomNotEnabled) {
+					// remove brandwisdom ids by filtering
+					values = values.stream().filter(v -> !brandWisdomIds.contains(v)).collect(Collectors.toList());
+				}
+			}
+		}
+
+		final String token = jwtTokenUtil.generateToken(userDetails);
+		return ResponseEntity.ok(new JWTTokenWrapper(new JwtResponse(token, values)));
+		
+		
+		
+		
+//		final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+//
+//		final String token = jwtTokenUtil.generateToken(userDetails);
+
+		//return ResponseEntity.ok(new JwtResponse(token));
+	}
+
+	private void authenticate(String username, String password) throws Exception {
+		try {
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+		} catch (DisabledException e) {
+			throw new Exception("USER_DISABLED", e);
+		} catch (BadCredentialsException e) {
+			throw new Exception("INVALID_CREDENTIALS", e);
+		}
+	}
+}

@@ -1,0 +1,9 @@
+package com.app.FlightAdmin.Dao;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.app.FlightAdmin.Model.Flight;
+
+public interface FlighRepo  extends JpaRepository<Flight, Integer>{
+
+}

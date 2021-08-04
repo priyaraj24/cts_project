@@ -1,0 +1,103 @@
+<!-- <div class="container">
+	<div class="screen">
+		<div class="screen__content">
+			<form class="login" >
+				<h1>User Login</h1>
+				<div class="login__field">
+					<i class="login__icon fas fa-user"></i>
+					<label>Username : </label>
+					<input type="text"  name="username" #username class="login__input" placeholder="User name / Email">
+				</div>
+				<div class="login__field">
+					<i class="login__icon fas fa-lock"></i>
+					<label>Password : </label>
+					<input type="password"  name="password" #password class="login__input" placeholder="Password">
+				</div>
+				<button class="button login__submit" (click)="login(username,password);" value="Login">
+					<span class="button__text">Log In Now</span>
+					<i class="button__icon fas fa-chevron-right"></i>
+				</button>	
+
+				<div class ="span2" *ngIf="!message"><h4 style="color:red" >User : Invalid username or passowrd</h4></div>			
+			</form>
+	
+		</div>
+		<div class="screen__background">
+			<span class="screen__background__shape screen__background__shape4"></span>
+			<span class="screen__background__shape screen__background__shape3"></span>		
+			<span class="screen__background__shape screen__background__shape2"></span>
+			<span class="screen__background__shape screen__background__shape1"></span>
+		</div>		
+	</div>
+</div> -->
+<!-- 
+<p-splitter [style]="{'height': '600px','color':'white'}" [panelSizes]="[20,80]" [minSizes]="[10,0]" styleClass="p-mb-5">
+    <ng-template pTemplate>
+        <div class="p-col p-d-flex p-ai-center p-jc-center">
+           <div id="align">
+            <app-usernav></app-usernav>
+           </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate>
+        <p-splitter layout="vertical" [panelSizes]="[15,85]">
+            <ng-template pTemplate>
+                <div class="p-col p-d-flex p-ai-center p-jc-center">
+                   
+                </div>
+            </ng-template>
+        </p-splitter>
+    </ng-template>
+</p-splitter> -->
+
+<p-panel >
+    <ng-template pTemplate="header">
+       ADMIN / USER LOGIN
+    </ng-template>
+    <div class="card">
+      
+      <div class="card-body">
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+              <div class="form-group">
+                  <label for="username" style="color: black;">Username</label>
+                  <input type="text" formControlName="userName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.userName.errors }" />
+                  <div *ngIf="submitted && f.userName.errors" class="invalid-feedback">
+                      <div *ngIf="f.userName.errors.required">Username is required</div>
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label for="password" style="color: black;">Password</label>
+                  <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                  <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                      <div *ngIf="f.password.errors.required">Password is required</div>
+                  </div>
+              </div>
+
+              <div class="form-group">  
+                <label for="role" style="color: black;">Role:</label>  
+                <select formControlName="role" class="form-control">  
+                    <!-- <option disabled>Select Role</option>   -->
+                    <!-- <option>Choose Role</option>   -->
+                    <option hidden="">Choose Role</option>
+                    <option *ngFor="let x of roleList">{{x}}</option>  
+                </select>  
+                <div *ngIf="submitted && f.role.errors" class="invalid-feedback">  
+                    <div *ngIf="f.role.errors.required">Role is required.</div>  
+                </div>  
+            </div>  
+
+              <div class="form-group">
+                  <button class="btn btn-primary" style="margin-top: 20px;">
+                      Login
+                  </button>
+                  <a routerLink="/user-register" style="margin-top: 20px;" class="btn btn-link">Register</a>
+              </div>
+          </form>
+      </div>
+  </div>
+    <!-- <ng-template pTemplate="footer">
+      <p-button label="Save" icon="pi pi-check" (click)="saveairline()"></p-button>
+      <p-button label="Cancel" icon="pi pi-times" styleClass="p-button-secondary" [style]="{'margin-left': '.5em'}"></p-button>
+   </ng-template> -->
+</p-panel>
+

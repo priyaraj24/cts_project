@@ -1,0 +1,55 @@
+package com.app.FightAdmin;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class UserControllerTests {
+
+	package com.app.FightAdmin;
+
+	import static org.junit.jupiter.api.Assertions.fail;
+
+	import org.junit.jupiter.api.BeforeEach;
+	import org.junit.jupiter.api.Test;
+	import org.junit.jupiter.api.extension.ExtendWith;
+	import org.junit.platform.runner.JUnitPlatform;
+	import org.junit.runner.RunWith;
+	import org.mockito.InjectMocks;
+	import org.mockito.Mock;
+	import org.mockito.junit.jupiter.MockitoExtension;
+
+	import com.app.FlightAdmin.Controller.UserController;
+	import com.app.FlightAdmin.Dao.UserDao;
+
+	@ExtendWith(MockitoExtension.class)
+	@RunWith(JUnitPlatform.class)
+	class UserControllerTests {
+
+		@InjectMocks
+		UserController userController;
+
+		@Mock
+		UserDao userDao;
+
+		@BeforeEach
+		void setUp() throws Exception {
+		}
+
+		@Test
+		void test() {
+			fail("Not yet implemented");
+		}
+		
+		@Test
+		void testRegister() {
+			fail("Not yet implemented");
+		}
+
+		@Test
+		void testLogin() {
+			fail("Not yet implemented");
+		}
+
+	}

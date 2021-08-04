@@ -1,0 +1,5 @@
+package com.app.FlightUser.Dao;
+
+public interface BookingDao {
+
+}

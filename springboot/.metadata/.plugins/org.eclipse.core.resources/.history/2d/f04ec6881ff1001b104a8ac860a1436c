@@ -1,0 +1,24 @@
+package com.app.FightAdmin;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class UserControllerTests {
+
+	@BeforeEach
+	void setUp() throws Exception {
+	}
+
+	@Test
+	void testRegister() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testLogin() {
+		fail("Not yet implemented");
+	}
+
+}

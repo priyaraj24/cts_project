@@ -1,0 +1,52 @@
+package com.app.FlightAdmin.DaoImpl;
+
+import java.util.List;
+
+import org.hibernate.Criteria;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.app.FlightAdmin.Dao.UserDao;
+import com.app.FlightAdmin.Model.User;
+
+@Repository
+@Transactional
+public class UserDaoImpl implements UserDao {
+
+	@Autowired
+	SessionFactory sessionFactory;
+
+	public void registerUser(User userObj) {
+		this.sessionFactory.getCurrentSession().saveOrUpdate(userObj);
+	}
+
+	@Override
+	public User fetchUser(User userObj) {
+		try {
+//			User user=(User) this.sessionFactory.getCurrentSession().createNativeQuery(
+//					"select * from users where user_name = :username and user_pass= :password and role= :role")
+//					.setParameter("username", userObj.getUserName()).setParameter("password", userObj.getPassword())
+//					.setParameter("role", userObj.getRole()).getSingleResult();
+			
+			User user=(User) this.sessionFactory.getCurrentSession().createQuery(
+					"SELECT u from User u where u.userName = :username AND u.password= :password AND u.role= :role")
+					.setParameter("username", userObj.getUserName()).setParameter("password", userObj.getPassword())
+					.setParameter("role", userObj.getRole()).getSingleResult();
+			
+//			Criteria c2 = this.sessionFactory.getCurrentSession().createCriteria(User.class);
+//			c2.add(Restrictions.eq("userName", userObj.getUserName()));
+//			c2.add(Restrictions.eq("password", userObj.getPassword()));
+//			c2.add(Restrictions.eq("userName", userObj.getRole()));
+//			List<User> list = (List<User>)c2.list();
+//			
+//			return list!=null?(list.size()>1?null:list.get(0)):null;
+			return user;
+		} catch (Exception ex) {
+			return null;
+		}
+	}
+
+}

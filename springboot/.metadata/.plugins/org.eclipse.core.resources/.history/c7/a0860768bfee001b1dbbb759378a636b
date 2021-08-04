@@ -1,0 +1,19 @@
+package com.app.FlightUser.ServiceImpl;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.app.FlightUser.Model.Flight;
+import com.app.FlightUser.Service.BookingService;
+
+@Service
+public class BookingServiceImpl implements BookingService {
+
+	@Override
+	public List<BookingResponse> searchFlights() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

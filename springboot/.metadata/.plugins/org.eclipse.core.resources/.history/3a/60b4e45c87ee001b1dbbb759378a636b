@@ -1,0 +1,109 @@
+package com.app.FlightAdmin.Controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.app.FlightAdmin.Constants.ResponseMessage;
+import com.app.FlightAdmin.Dao.DepartureDao;
+import com.app.FlightAdmin.Model.Departure;
+import com.app.FlightAdmin.Request.DepartureRequest;
+import com.app.FlightAdmin.Service.DepartureService;
+import com.app.FlightAdmin.Util.ResponseMessageUtil;
+
+import io.swagger.annotations.ApiOperation;
+
+@RestController
+@RequestMapping(value = { "/departure" })
+@SuppressWarnings("static-access")
+@CrossOrigin(origins = "http://localhost:4200")
+public class DepartureController {
+
+	@Autowired
+	public ResponseMessageUtil responseUtil;
+
+	@Autowired
+	public ResponseMessage message;
+	
+	@Autowired
+	DepartureService departureService;
+	
+	@Autowired
+	DepartureDao dao;
+	
+	@ApiOperation(value = "Save Departure", notes = "Add departure Details")
+	@PostMapping(value = "/save")
+	public ResponseEntity<Object> saveDeparture(@RequestBody DepartureRequest dept) {
+		Map<String,String> map=new HashMap<String, String>();
+		try {
+		this.departureService.processDeptData(dept);
+		map.put("message", "Success");
+			return new ResponseEntity<>(map, HttpStatus.OK);
+		} catch (Exception e) {
+			return this.responseUtil.errorResponse(e, message.SERVER_ERROR);
+		}
+	}
+	
+	@ApiOperation(value = "Fetch flight Id ", notes = "Fetch flight id by departure id")
+	@GetMapping(value = "/fetch/flightId/{id}")
+	public ResponseEntity<Object> fetchFlightId(@PathVariable(value="id") int id) {
+		Map<String,Object> res=new HashMap<>();
+		try {
+			int flightId;
+			flightId= this.dao.fetchFlightIdByDeptid(id);
+			res.put("id", flightId);
+			return new ResponseEntity<>(res, HttpStatus.OK);
+		} catch (Exception e) {
+			return this.responseUtil.errorResponse(e, message.SERVER_ERROR);
+		}
+	}
+	
+	@ApiOperation(value = "Update Departure", notes = "update departure Details")
+	@PostMapping(value = "/update")
+	public ResponseEntity<Object> updateDeparture(@RequestBody DepartureRequest dept) {
+		Map<String,String> map=new HashMap<String, String>();
+		try {
+		this.departureService.processDeptData(dept);
+		map.put("message", "Success");
+			return new ResponseEntity<>(message.CREATED, HttpStatus.OK);
+		} catch (Exception e) {
+			return this.responseUtil.errorResponse(e, message.SERVER_ERROR);
+		}
+	}
+
+	@ApiOperation(value = "ListAll Departures", notes = "Fetch all departure Details")
+	@PostMapping(value = "/fetch")
+	public ResponseEntity<Object> fetchAllDept() {
+		try {
+			List<Departure> res = this.departureService.fetchAllDept();
+			return new ResponseEntity<>(res, HttpStatus.OK);
+		} catch (Exception e) {
+			return this.responseUtil.errorResponse(e, message.SERVER_ERROR);
+		}
+	}
+	
+	@ApiOperation(value = "Delete departure", notes = "Fetch departure by id and delete Object")
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<Object> delete(@PathVariable(value = "id") int id) {
+		boolean isRemoved = dao.delete(this.dao.findById(id));
+		Map<String,String> res= new HashMap<>();
+		if (!isRemoved) {
+			res.put("message", "Not Found");
+			return new ResponseEntity<>(res,HttpStatus.NOT_FOUND);
+		}
+		res.put("message", "Success");
+		return new ResponseEntity<>(res, HttpStatus.OK);
+	}
+}

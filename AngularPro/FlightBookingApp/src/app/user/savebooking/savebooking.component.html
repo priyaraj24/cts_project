@@ -1,0 +1,184 @@
+<!-- After Booking -->
+
+<p-dataView [value]="elements" >
+    <ng-template let-temp pTemplate="listItem">
+        <div class="p-field" style="background-color: white;"> 
+            <h1 style="margin-top: 20px;color: black;text-align: center;text-decoration: bold;"> 
+                BOOKING DETAILS
+            </h1>
+         </div>
+        <div class="p-field"> 
+            <h1 style="margin-left: 200px;margin-top: 20px;color: white;"> 
+                 FlightName 
+            </h1>
+             <h3 style="margin-left: 600px;margin-top:-40px;"> {{temp.flightName}} </h3>
+         </div>
+
+         <div class="p-field">
+              <h1 style="margin-left: 200px;margin-top: 20px;color: white;">
+                  FlightNumber 
+                </h1> 
+                <h3 style="margin-left: 600px;margin-top:-40px;"> {{temp.flightNumber}} </h3>
+        </div>
+
+         <div class="p-field"> 
+             <h1 style="margin-left: 200px;margin-top: 20px;color: white;">
+            FromJourney 
+            </h1>
+             <h3 style="margin-left: 600px;margin-top:-40px;"> {{temp.from}} </h3>
+         </div>
+
+        <div class="p-field">
+            <h1 style="margin-left: 200px;margin-top: 20px;color: white;">
+            ToJourney 
+        </h1>
+
+         <h3 style="margin-left: 600px;margin-top:-40px;"> {{temp.to}} </h3>
+         </div>
+
+          <div class="p-field"> 
+              <h1 style="margin-left: 200px;margin-top: 20px;color: white;">
+            Onwards Journey 
+        </h1> 
+        <h3 style="margin-left: 600px;margin-top:-40px;"> {{temp.onwards  | date:'shortDate'}} </h3>
+         </div>
+
+          <div class="p-field">
+               <h1 style="margin-left: 200px;margin-top: 20px;color: white;">
+            Towards Journey 
+        </h1>
+         <h3 style="margin-left: 600px;margin-top:-40px;"> ------------ {{temp.towards  | date:'shortDate'}} </h3>
+         </div>
+
+          <div class="p-field"> 
+              <h1 style="margin-left: 200px;margin-top: 20px;color: white;">
+            Price 
+        </h1>
+            <h3 style="margin-left: 600px;margin-top:-40px;"> {{temp.price}} </h3>
+         </div>
+         
+         <div class="p-field">
+
+            <form #userlogin = "ngForm" (ngSubmit) = "dynamicTable(userlogin.value)" >
+                <label for="seats"> <h1 style="margin-left: 200px;margin-top: 20px;color: white;">No of Seats </h1></label>
+                <input type = "number" placeholder="Passenger Count" min="=1" max="5" name = "seats"  ngModel style="width: 150px;margin-left: 270px;">
+                <input type = "submit" value = "Submit" style="margin-left: 50px;background-color: white;">
+             </form>
+        </div>
+        
+        <div class="p-field">
+
+            <form #formcoupon = "ngForm" (ngSubmit) = "applyCoupon(formcoupon.value)" >
+                <label for="coupon"> <h1 style="margin-left: 200px;margin-top: 20px;color: white;">Apply Coupon </h1></label>
+                <input type = "text" placeholder="Enter Discount Code" name = "coupon"  ngModel style="width: 150px;margin-left: 250px;">
+                <input type = "submit" value = "Submit" style="margin-left: 50px;background-color: white;">
+             </form>
+        </div>
+        
+         <div class="p-field" style="padding-top: 10px;padding-bottom: 10px;background-color: white;"> 
+            <h1 style="margin-top: 10px;margin-left:50px;color:black;text-decoration: bold;"> 
+                PASSENGER DETAILS
+            </h1>
+            <div style="margin-top:-50px;margin-left: 750px;">
+                    <p-button   type="button"  icon="pi pi-save" label="Save Booking" (click)="saveBooking()" class="p-button-rounded p-button-text">
+                    </p-button>
+            </div>
+         </div>
+    </ng-template>
+</p-dataView>
+
+<p-table [value]="myObjectList"  dataKey="id" editMode="row">
+    <ng-template pTemplate="header">
+           <tr> 
+             <th>Passenger Name</th>
+             <th>Age</th>
+             <th>Email</th>
+             <th>Preferences</th>
+             <th>ACTIONS</th>
+           </tr>
+     </ng-template>
+
+     <ng-template pTemplate="body" let-temp  let-editing="editing" let-ri="rowIndex">
+        <tr [pEditableRow]="temp">         
+            <td>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="text" [(ngModel)]="temp.passengerName">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{temp.passengerName}}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+    
+            <td>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="number" [(ngModel)]="temp.age">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{temp.age}}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="text" [(ngModel)]="temp.email">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{temp.email}}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="text" [(ngModel)]="temp.preferences">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{temp.preferences}}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td style="text-align:center">
+                <p-button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" label="Edit" (click)="onRowEditInit(temp)" class="p-button-rounded p-button-text"></p-button>
+                <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(temp)" class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
+                <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(temp, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
+            </td>
+    
+         </tr>
+        <!-- <form [formGroup]="form">
+           <tr>
+                <td> 
+                    <div class="form-group">
+                        <input type="text" formControlName="passengerName" class="form-control"  />
+                    </div>
+                </td>
+                <td> 
+                    <div class="form-group">
+                        <input type="email" formControlName="email" class="form-control" />
+                    </div>
+                 </td> 
+                <td> 
+                    <div class="form-group">
+                        <input type="number" formControlName="age" class="form-control" />
+                    </div>
+                 </td>
+                <td> 
+                    <div class="form-group"> 
+                    <select formControlName="preferences" class="form-control" >  
+                        <option hidden="">Choose Preferences</option>
+                        <option *ngFor="let p of pref" [ngValue]="p">{{p}}</option>  
+                    </select>  
+                </div> 
+                </td>
+                <td> 
+                    <div class="form-group">
+                        <p-button icon="pi pi-plus" label="Add"  (click)="addPassenger(p);"></p-button>
+                    </div>
+                 </td>
+            </tr>
+        </form> -->
+     </ng-template>
+</p-table>

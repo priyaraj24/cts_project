@@ -1,0 +1,97 @@
+package com.app.FlightAdmin.Controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.app.FlightAdmin.Constants.ResponseMessage;
+import com.app.FlightAdmin.Dao.DiscountDao;
+import com.app.FlightAdmin.Model.Discount;
+import com.app.FlightAdmin.Service.DiscountService;
+import com.app.FlightAdmin.Util.ResponseMessageUtil;
+
+import io.swagger.annotations.ApiOperation;
+
+@RestController
+@RequestMapping(value = { "/discount" })
+@SuppressWarnings("static-access")
+@CrossOrigin(origins = "*",allowedHeaders = "*",allowCredentials = "true")
+public class DiscountController {
+
+	@Autowired
+	public ResponseMessageUtil responseUtil;
+
+	@Autowired
+	public ResponseMessage message;
+
+	@Autowired
+	public DiscountService discountService;
+
+	@Autowired
+	public DiscountDao dao;
+
+	@ApiOperation(value = "Save discount", notes = "Add discount with code and price")
+	@PostMapping(value = "/save")
+	public ResponseEntity<Object> saveDiscount(@RequestBody Discount discount) {
+		Map<String,String> res= new HashMap<>();
+		try {
+			this.discountService.saveDiscount(discount);
+			res.put("message", "Success");
+			return new ResponseEntity<>(res, HttpStatus.OK);
+		} catch (Exception e) {
+			return this.responseUtil.errorResponse(e, message.SERVER_ERROR);
+		}
+	}
+	
+	
+	@ApiOperation(value = "update discount", notes = "update discount with code and price")
+	@PostMapping(value = "/update")
+	public ResponseEntity<Object> updateDiscount(@RequestBody Discount discount) {
+		Map<String,String> res= new HashMap<>();
+		try {
+			this.discountService.updateDiscount(discount);
+			res.put("message", "Success");
+			return new ResponseEntity<>(res, HttpStatus.OK);
+		} catch (Exception e) {
+			return this.responseUtil.errorResponse(e, message.SERVER_ERROR);
+		}
+	}
+
+	@ApiOperation(value = "ListAll Discounts", notes = "Fetch all discount Details")
+	@GetMapping(value = "/fetch")
+	public ResponseEntity<Object> fetchAllFlights() {
+		Map<String,Object> result= new HashMap<>();
+		try {
+			List<Discount> res = this.discountService.fetchAllDiscounts();
+			result.put("discounts", res);
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		} catch (Exception e) {
+			return this.responseUtil.errorResponse(e, message.SERVER_ERROR);
+		}
+	}
+
+	@ApiOperation(value = "Delete discount", notes = "Fetch discount details by id and delete Object")
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<Object> delete(@PathVariable(value = "id") int id) {
+		Map<String,String> res= new HashMap<>();
+		boolean isRemoved = dao.delete(this.dao.findById(id));
+		if (!isRemoved) {
+			res.put("message", "Not found");
+			return new ResponseEntity<>(res,HttpStatus.NOT_FOUND);
+		}
+		res.put("message", "Success");
+		return new ResponseEntity<>(res, HttpStatus.OK);
+	}
+}

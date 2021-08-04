@@ -1,0 +1,68 @@
+package com.app.FlightAdmin.DaoImpl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.app.FlightAdmin.Dao.FlightDao;
+import com.app.FlightAdmin.Dao.FlightRepo;
+import com.app.FlightAdmin.Model.Flight;
+
+@Repository
+@Transactional
+public class FlightDaoImpl implements FlightDao {
+
+	@Autowired
+	SessionFactory sessionFactory;
+
+	@Autowired
+	FlightRepo dao;
+	
+	@Override
+	public void saveFlight(Flight flight) {
+		this.sessionFactory.getCurrentSession().saveOrUpdate(flight);
+	}
+
+	public Flight findById(int flightId) {
+		Session session = sessionFactory.getCurrentSession();
+		Flight fi = (Flight) session.load(Flight.class, flightId);
+		return fi;
+	}
+
+	public boolean delete(Flight flight) {
+		try {
+			this.sessionFactory.getCurrentSession().delete(flight);
+			return true;
+		} catch (Exception ex) {
+			System.out.println("Err in flight Deletion :" + ex);
+			return false;
+		}
+	}
+	
+	@Override
+	public List<Flight> getAllflights() {
+		try {
+			// return sessionFactory.getCurrentSession().createCriteria(Airline.class).list();
+			List<Flight> list = new ArrayList<>();
+			//list =sessionFactory.getCurrentSession().createCriteria(Flight.class).list();
+	        list= sessionFactory.getCurrentSession().createQuery("FROM Flight").list(); 
+			//return sessionFactory.getCurrentSession().createQuery("SELECT a FROM Flight a", Flight.class)
+					//.getResultList();
+			return list;
+		} catch (Exception e) {
+			return new ArrayList<>();
+		}
+	}
+
+	@Override
+	public String fetchAirlineNameByFlightid(int id) {
+		String query="Select a.airline_name from flight as f join airline as a ON a.airline_id=f.airline_id where f.flight_id= :flightId";
+		return this.sessionFactory.getCurrentSession().createNativeQuery(query).setParameter("flightId", id).uniqueResult().toString();
+	}
+
+}

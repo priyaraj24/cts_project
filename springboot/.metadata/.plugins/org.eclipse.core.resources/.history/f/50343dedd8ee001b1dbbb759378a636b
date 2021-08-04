@@ -1,0 +1,13 @@
+package com.app.FlightUser.Service;
+
+import java.util.List;
+
+import com.app.FlightUser.ReqRes.BookingRequest;
+import com.app.FlightUser.ReqRes.BookingResponse;
+
+public interface BookingService {
+
+	List<BookingResponse> searchFlights(BookingRequest req);
+
+
+}

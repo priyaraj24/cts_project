@@ -1,0 +1,45 @@
+package com.app.FlightAdmin.ServiceImpl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Service;
+
+import com.app.FlightAdmin.Dao.AirlineDao;
+import com.app.FlightAdmin.Model.Airline;
+import com.app.FlightAdmin.Model.BookFlight;
+import com.app.FlightAdmin.Service.AirlineService;
+
+@Service
+public class AirlineServiceImpl implements AirlineService {
+
+	public List<BookFlight> list;
+	
+	private static final String TOPIC = "bookflight";
+
+	@Autowired
+	AirlineDao airlineDao;
+
+	public void saveAirline(Airline airline) {
+		this.airlineDao.saveAirline(airline);
+	}
+
+	public void updateAirline(Airline airline) {
+		this.airlineDao.saveAirline(airline);
+	}
+
+	@Override
+	public List<Airline> fetchAllAirlines() {
+		return this.airlineDao.getAllAirlines();
+	}
+
+	@Override
+	@KafkaListener(topics = TOPIC, groupId = "group_id", containerFactory = "userKafkaListenerFactory")
+	public void getKafkaData(BookFlight bookings) {
+		// TODO Auto-generated method stub
+		list.add(bookings);
+		//return null;
+	}
+
+}

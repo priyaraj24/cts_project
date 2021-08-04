@@ -1,0 +1,67 @@
+package com.app.FlightAdmin.DaoImpl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.app.FlightAdmin.Dao.DepartureDao;
+import com.app.FlightAdmin.Model.Departure;
+
+@Repository
+@Transactional
+@SuppressWarnings("unchecked")
+public class DepartureDaoImpl implements DepartureDao {
+
+	@Autowired
+	SessionFactory sessionFactory;
+
+	@Override
+	public void saveDeparture(Departure dept) {
+		this.sessionFactory.getCurrentSession().saveOrUpdate(dept);
+	}
+
+	@Override
+	public List<Departure> fetchAllDept() {
+		try {
+			List<Departure> list = new ArrayList<>();
+			list = sessionFactory.getCurrentSession().createQuery("FROM Departure").list();
+			return list;
+		} catch (Exception e) {
+			return new ArrayList<>();
+		}
+	}
+
+	@Override
+	public Departure findById(int id) {
+		Session session = sessionFactory.getCurrentSession();
+		Departure dept = (Departure) session.get(Departure.class, id);
+		return dept;
+	}
+
+	@Override
+	public boolean delete(Departure dept) {
+		try {
+			if (dept != null) {
+				this.sessionFactory.getCurrentSession().delete(dept);
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception ex) {
+			System.out.println("Err in airline Deletion :" + ex);
+			return false;
+		}
+	}
+
+	@Override
+	public int fetchFlightIdByDeptid(int id) {
+		String query="Select d.flight_id from departure as d where d.departure_id= :deptId";
+		return (int) this.sessionFactory.getCurrentSession().createNativeQuery(query).setParameter("deptId", id).uniqueResult();
+	}
+
+}

@@ -1,0 +1,13 @@
+package com.app.FlightUser.Dao;
+
+import java.util.List;
+
+import com.app.FlightUser.ReqRes.BookingRequest;
+
+public interface BookingDao {
+
+	List<Object[]> searchFlights(BookingRequest req);
+
+	List<String> dropDown();
+
+}

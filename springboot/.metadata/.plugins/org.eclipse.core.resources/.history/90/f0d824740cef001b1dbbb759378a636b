@@ -1,0 +1,26 @@
+server.port=8889
+#server.servlet.context-path= /api/admin/
+spring.application.name= adminservice
+eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka/
+entitymanager.packagesToScan:com.app.FlightAdmin
+
+# mysql-database
+#db.url=jdbc:mysql://localhost:3306/flightbooking
+#db.username=root
+#db.password=root
+#db.driver=com.mysql.cj.jdbc.Driver
+
+
+datasource.driver-class-name:com.mysql.cj.jdbc.Driver
+spring.datasource.url=jdbc:mysql://flightbooking.ccx719kniqhy.us-east-2.rds.amazonaws.com:3306/flightbooking
+spring.datasource.username = admin
+spring.datasource.password = adminadmin
+
+
+#hibernate
+hibernate.show_sql: true
+hibernate.hbm2ddl.auto: none
+hibernate.dialect:org.hibernate.dialect.MySQLDialect
+#
+
+

@@ -1,0 +1,16 @@
+package com.app.FlightUser.Service;
+
+import java.util.List;
+import java.util.Map;
+
+import com.app.FlightCommon.Model.BookFlight;
+import com.app.FlightCommon.ReqRes.BookingRequest;
+
+public interface BookingService {
+
+	List<Map> searchFlights(BookingRequest req);
+
+	BookFlight processData(BookingRequest req);
+
+
+}

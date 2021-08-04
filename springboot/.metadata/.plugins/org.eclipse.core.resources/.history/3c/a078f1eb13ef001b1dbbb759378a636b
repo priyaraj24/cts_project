@@ -1,0 +1,129 @@
+package com.app.FlightUser.DaoImpl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.app.FlightUser.Dao.BookingDao;
+import com.app.FlightUser.Model.BookFlight;
+import com.app.FlightUser.Model.Discount;
+import com.app.FlightUser.ReqRes.BookingRequest;
+import com.app.FlightUser.ReqRes.BookingResponse;
+
+@Repository
+@Transactional
+@SuppressWarnings("unchecked")
+public class BookingDaoImpl implements BookingDao {
+
+	@Autowired
+	SessionFactory SessionFactory;
+
+	@Override
+	public List<Object[]> searchFlights(BookingRequest req) {
+		List<String> obj = new ArrayList<>();
+		try {
+			String query = "";
+			if (req.getType().equals("oneway")) {
+
+				query = "select cast(\r\n" + "json_object(\r\n" + "'flightName',r.flight_name,\r\n"
+						+ "'flightNumber',r.flight_number,\r\n" + "'from',r.departure_from,\r\n"
+						+ "'to',r.departure_to,\r\n" + "'onwards',r.arrival,\r\n" + "'price',r.price\r\n"
+						+ ") as char\r\n" + ")\r\n" + " FROM\r\n" + "("
+						+ "Select f.flight_name,f.flight_number,d.departure_from,d.departure_to,d.arrival,d.price from flight as f\r\n"
+						+ "join departure_details as d on d.flight_id=f.flight_id "
+						+ " where d.departure_from=:from AND d.departure_to =:to AND DATE_FORMAT(arrival,'%Y-%m-%d')=:arrival ) as r";
+
+				obj = this.SessionFactory.getCurrentSession().createNativeQuery(query)
+						.setParameter("from", req.getFrom()).setParameter("to", req.getTo())
+						.setParameter("arrival", req.getOnwards()).getResultList();
+
+			} else if (req.getType().equals("round")) {
+
+				query = "\"select cast(\\r\\n\" + \"json_object(\\r\\n\" + \"'flightName',r.flight_name,\\r\\n\"\r\n"
+						+ "						+ \"'flightNumber',r.flight_number,\\r\\n\" + \"'from',r.departure_from,\\r\\n\"\r\n"
+						+ "						+ \"'to',r.departure_to,\\r\\n\" + \"'onwards',r.arrival,\\r\\n\" + \"'price',r.price\\r\\n\"\r\n"
+						+ "						+ \") as char\\r\\n\" + \")\\r\\n\" + \" FROM\\r\\n\" + \"(\""
+						+ "Select f.flight_name,f.flight_number,d.departure_from,d.departure_to,d.arrival,d.departure,d.price from flight as f\r\n"
+						+ "join departure_details as d on d.flight_id=f.flight_id "
+						+ " where d.departure_from=:from AND d.departure_to =:to AND DATE_FORMAT(arrival,'%Y-%m-%d')=:arrival  AND DATE_FORMAT(departure,'%Y-%m-%d')=:departure) as r";
+
+				obj = this.SessionFactory.getCurrentSession().createNativeQuery(query)
+						.setParameter("from", req.getFrom()).setParameter("to", req.getTo())
+						.setParameter("arrival", req.getOnwards()).setParameter("departure", req.getTowards())
+						.getResultList();
+			}
+			return obj;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
+
+	}
+
+	@Override
+	public List<String> dropDown() {
+		String q = "Select departure_from from departure_details";
+		List<String> obj = this.SessionFactory.getCurrentSession().createNativeQuery(q).getResultList();
+		return obj;
+	}
+
+	@Override
+	public List<String> dropDown1() {
+		String q = "Select departure_to from departure_details";
+		List<String> obj = this.SessionFactory.getCurrentSession().createNativeQuery(q).getResultList();
+		return obj;
+	}
+
+	@Override
+	public List<Discount> getAllDiscounts() {
+		try {
+			List<Discount> list = new ArrayList<>();
+			list = SessionFactory.getCurrentSession().createQuery("FROM Discount").list();
+			return list;
+		} catch (Exception e) {
+			return new ArrayList<>();
+		}
+
+	}
+
+	@Override
+	public boolean updateBookingStatus(BookingResponse req) {
+		try {
+			String q = "update bookflight set status = :status where booking_id=:id";
+			this.SessionFactory.getCurrentSession().createNativeQuery(q).setParameter("id", req.getBookingId())
+					.setParameter("status", req.getStatus()).executeUpdate();
+			return true;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public List<BookFlight> fetchHistory() {
+		try {
+			List<BookFlight> list = new ArrayList<>();
+			list = SessionFactory.getCurrentSession().createQuery("FROM BookFlight WHERE status='TRAVELLED' ").list();
+			return list;
+		} catch (Exception e) {
+			return new ArrayList<>();
+		}
+	}
+
+	@Override
+	public List<BookFlight> fetchBookings() {
+		try {
+			List<BookFlight> list = new ArrayList<>();
+			list = SessionFactory.getCurrentSession().createQuery("FROM BookFlight WHERE status IN ('CANCEL','BOOKED')")
+					.list();
+			return list;
+		} catch (Exception e) {
+			return new ArrayList<>();
+		}
+	}
+
+}

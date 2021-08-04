@@ -1,0 +1,54 @@
+package com.demo.security.dao;
+
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.demo.security.reqres.User;
+import com.demo.security.reqres.UserWrapper;
+
+@Repository
+@Transactional
+public class UserDaoImpl implements UserDao {
+
+	@Autowired
+	SessionFactory sessionFactory;
+
+	public void registerUser(User userObj) {
+		this.sessionFactory.getCurrentSession().saveOrUpdate(userObj);
+	}
+
+	@Override
+	public User fetchUser(User userObj) {
+		try {
+			User user = (User) this.sessionFactory.getCurrentSession().createQuery(
+					"SELECT u from User u where u.userName = :username AND u.password= :password AND u.role= :role")
+					.setParameter("username", userObj.getUserName()).setParameter("password", userObj.getPassword())
+					.setParameter("role", userObj.getRole()).getSingleResult();
+			return user;
+		} catch (Exception ex) {
+			System.out.println("ERR USer :" + ex);
+			return null;
+		}
+	}
+
+	@Override
+	public UserWrapper findByUsername(String username) {
+		try {
+			User user = (User) this.sessionFactory.getCurrentSession()
+					.createQuery("SELECT u from User u where u.userName = :username").setParameter("username", username)
+					.getSingleResult();
+			UserWrapper userWrapper = new UserWrapper();
+			userWrapper.setUserId(user.getUserId());
+			userWrapper.setUsername(user.getUserName());
+			userWrapper.setPassword(user.getPassword());
+			userWrapper.setRole(user.getRole());
+			return userWrapper;
+		} catch (Exception ex) {
+			System.out.println("ERR USer :" + ex);
+			return null;
+		}
+	}
+
+}

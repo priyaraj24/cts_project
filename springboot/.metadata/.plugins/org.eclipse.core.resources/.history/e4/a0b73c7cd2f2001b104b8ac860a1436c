@@ -1,0 +1,31 @@
+package com.app.FlightUser.Dao;
+
+import java.util.List;
+import java.util.Map;
+
+import com.app.FlightCommon.Model.BookFlight;
+import com.app.FlightCommon.Model.Discount;
+import com.app.FlightCommon.ReqRes.BookingRequest;
+import com.app.FlightCommon.ReqRes.BookingResponse;
+
+public interface BookingDao {
+
+	List<Map> searchFlights(BookingRequest req);
+
+	List<String> dropDown();
+
+	public List<String> dropDown1();
+
+	List<Discount> getAllDiscounts();
+
+	boolean updateBookingStatus(BookingResponse req);
+
+	List<BookFlight> fetchHistory();
+
+	List<BookFlight> fetchBookings();
+
+	void updateTravelled();
+
+	void save(BookFlight req);
+
+}

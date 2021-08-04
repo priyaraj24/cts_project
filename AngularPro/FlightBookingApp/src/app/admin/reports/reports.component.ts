@@ -1,0 +1,45 @@
+import { Component, OnInit } from '@angular/core';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { DataserviceService } from 'src/app/service/dataservice.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { AlertService } from 'src/app/service/alert.service';
+import { ActivatedRoute, Router } from '@angular/router';
+
+@Component({
+  selector: 'app-reports',
+  templateUrl: './reports.component.html',
+  styleUrls: ['./reports.component.scss']
+})
+export class ReportsComponent implements OnInit {
+  elements!:[];
+  displayBasic2!:boolean;
+  
+  constructor(
+    private formBuilder: FormBuilder ,
+    private route: ActivatedRoute,
+    private routes: Router,
+    private dataService: DataserviceService,
+    private alertService: AlertService,
+    private messageService:MessageService,
+    private confirmationService:ConfirmationService
+) { }
+
+
+  ngOnInit(): void {
+    this.loadData();
+  }
+
+
+  loadData() {
+    this.dataService.kafkaBackup().subscribe((data:any)=>{
+      this.elements=data.history;
+      console.log("data is "+JSON.stringify(this.elements));
+    })
+  }
+
+  
+showBasicDialog2() {
+  this.displayBasic2 = true;
+}
+
+}

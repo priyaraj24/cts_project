@@ -1,0 +1,177 @@
+package com.app.FlightUser.DaoImpl;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.app.FlightUser.Dao.BookingDao;
+import com.app.FlightUser.Model.BookFlight;
+import com.app.FlightUser.Model.Discount;
+import com.app.FlightUser.ReqRes.BookingRequest;
+import com.app.FlightUser.ReqRes.BookingResponse;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+@Repository
+@Transactional
+@SuppressWarnings("unchecked")
+public class BookingDaoImpl implements BookingDao {
+
+	@Autowired
+	SessionFactory SessionFactory;
+
+	@Override
+	public List<Map> searchFlights(BookingRequest req) {
+		List<Map> results = new ArrayList<>();
+		List<String> obj = new ArrayList<>();
+		SimpleDateFormat DateFor = new SimpleDateFormat("yyyy-MM-dd");
+		String onwards = DateFor.format(req.getOnwards());
+		String towards = req.getTowards() != null && req.getTowards().toString() != ""
+				? DateFor.format(req.getTowards())
+				: null;
+		try {
+			String query = "";
+			if (req.getType().equals("oneway")) {
+
+				query = "select cast( " + "json_object( " + "'flightName',r.flight_name, "
+						+ "'flightNumber',r.flight_number, " + "'from',r.departure_from, "
+						+ "'to',r.departure_to, " + "'onwards',date_format(r.arrival,'%Y-%m-%d'), " + "'price',r.price "
+						+ ") as char " + ") " + " FROM " + "( " + "SELECT  " + "    f.flight_name, "
+						+ "    f.flight_number, " + "    d.departure_from, " + "    d.departure_to, "
+						+ "    d.arrival, " + "    d.price " + "FROM " + "    flight AS f "
+						+ "        JOIN " + "    departure_details AS d ON d.flight_id = f.flight_id "
+						+ "WHERE " + "    d.departure_from = :from " + "        AND d.departure_to = :to  "
+						+ "        AND DATE_FORMAT(arrival, '%Y-%m-%d') = :arrival ) as r";
+				obj = this.SessionFactory.getCurrentSession().createNativeQuery(query)
+						.setParameter("from", req.getFrom()).setParameter("to", req.getTo())
+						.setParameter("arrival", onwards).getResultList();
+
+			} else if (req.getType().equals("round")) {
+
+				query = "select cast( " + "json_object( " + "'flightName',r.flight_name, "
+						+ "'flightNumber',r.flight_number, " + "'from',r.departure_from, "
+						+ "'to',r.departure_to, " + "'onwards',date_format(r.arrival,'%Y-%m-%d'), " + 
+								", " + "'towards',date_format(r.departure,'%Y-%m-%d'), "
+						+ "'price',r.price " + ") as char " + ") " + " FROM " + "( " + "SELECT  "
+						+ "    f.flight_name, " + "    f.flight_number, " + "    d.departure_from, "
+						+ "    d.departure_to, " + "    d.arrival, " + "    d.price " + "FROM "
+						+ "    flight AS f " + "        JOIN "
+						+ "    departure_details AS d ON d.flight_id = f.flight_id " + "WHERE "
+						+ "    d.departure_from = :from " + "        AND d.departure_to = :to  "
+						+ "        AND DATE_FORMAT(arrival, '%Y-%m-%d') = :arrival"
+						+ "        AND DATE_FORMAT(departure, '%Y-%m-%d') = :departure ) as r";
+				obj = this.SessionFactory.getCurrentSession().createNativeQuery(query)
+						.setParameter("from", req.getFrom()).setParameter("to", req.getTo())
+						.setParameter("arrival", onwards).setParameter("departure", towards).getResultList();
+			}
+
+			results = obj.stream().map(v -> {
+				try {
+					return new ObjectMapper().readValue(v, Map.class);
+				} catch (JsonParseException e) {
+					e.printStackTrace();
+				} catch (JsonMappingException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return null;
+			}).collect(Collectors.toList());
+			return results;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
+
+	}
+
+	@Override
+	public List<String> dropDown() {
+		String q = "Select departure_from from departure_details";
+		List<String> obj = this.SessionFactory.getCurrentSession().createNativeQuery(q).getResultList();
+		return obj;
+	}
+
+	@Override
+	public List<String> dropDown1() {
+		String q = "Select departure_to from departure_details";
+		List<String> obj = this.SessionFactory.getCurrentSession().createNativeQuery(q).getResultList();
+		return obj;
+	}
+
+	@Override
+	public List<Discount> getAllDiscounts() {
+		try {
+			return SessionFactory.getCurrentSession().createQuery("SELECT a FROM Discount a", Discount.class)
+					.getResultList();
+		} catch (Exception e) {
+			return new ArrayList<>();
+		}
+
+	}
+
+	@Override
+	public boolean updateBookingStatus(BookingResponse req) {
+		try {
+			String q = "update bookflight set status = :status where booking_id=:id";
+			this.SessionFactory.getCurrentSession().createNativeQuery(q).setParameter("id", req.getBookingId())
+					.setParameter("status", req.getStatus()).executeUpdate();
+			return true;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public List<BookFlight> fetchHistory(int id) {
+		try {
+			List<BookFlight> list = new ArrayList<>();
+			list = SessionFactory.getCurrentSession().createQuery("FROM BookFlight WHERE status='TRAVELLED' AND userId= "+id)
+					//.setParameter("userId", id)
+					.list();
+			return list;
+		} catch (Exception e) {
+			return new ArrayList<>();
+		}
+	}
+
+	@Override
+	public List<BookFlight> fetchBookings(int id) {
+		try {
+			List<BookFlight> list = new ArrayList<>();
+			list = SessionFactory.getCurrentSession().createQuery("FROM BookFlight WHERE status IN ('CANCELLED','BOOKED') AND userId= "+id)
+					//.setParameter("userId", id)
+					.list();
+			return list;
+		} catch (Exception e) {
+			return new ArrayList<>();
+		}
+	}
+
+	@Override
+	public void updateTravelled() {
+		try {
+			String q = "update bookflight set status = :status where arrival< NOW() ";
+			this.SessionFactory.getCurrentSession().createNativeQuery(q).setParameter("status", "Travelled")
+					.executeUpdate();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	@Override
+	public void save(BookFlight req) {
+		this.SessionFactory.getCurrentSession().save(req);
+	}
+
+}

@@ -1,0 +1,102 @@
+package com.app.FlightUser.Controller;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.app.FlightUser.Constants.ResponseMessage;
+import com.app.FlightUser.Dao.BookingDao;
+import com.app.FlightUser.Model.Discount;
+import com.app.FlightUser.ReqRes.BookingRequest;
+import com.app.FlightUser.ReqRes.BookingResponse;
+import com.app.FlightUser.Service.BookingService;
+import com.app.FlightUser.Util.ResponseMessageUtil;
+
+import io.swagger.annotations.ApiOperation;
+
+@RestController
+@RequestMapping("/booking")
+@SuppressWarnings("static-access")
+public class BookingController {
+	
+	@Autowired
+	public ResponseMessageUtil responseUtil;
+
+	@Autowired
+	public ResponseMessage message;
+	
+	@Autowired
+	public BookingService bookingService;
+	
+	@Autowired
+	public BookingDao dao;
+
+	@ApiOperation(value = "Ping", notes = "Ping Url")
+	@GetMapping(value = "/ping")
+	public String test() {
+		return "haiii";
+	}
+
+	@ApiOperation(value = "Search flights", notes = "fetch flight and departure based on search")
+	@PostMapping(value = "/search")
+	public ResponseEntity<Object> fetchAllflightNames(@RequestBody BookingRequest req) {
+		Map<String,Object> result= new HashMap<>();
+		try {
+			List<BookingResponse> res = new ArrayList<>();
+			res = this.bookingService.searchFlights(req);
+			result.put("search",res);
+			return new ResponseEntity<>(res, HttpStatus.OK);
+		} catch (Exception e) {
+			return this.responseUtil.errorResponse(e, message.SERVER_ERROR);
+		}
+	}
+	
+	@ApiOperation(value = "from drop down", notes = "Fetch all journey from data")
+	@GetMapping(value = "/dropdown")
+	public ResponseEntity<Object> dropDown() {
+		try {
+			List<String> res = new ArrayList<>();
+			res = this.dao.dropDown();
+			return new ResponseEntity<>(res, HttpStatus.OK);
+		} catch (Exception e) {
+			return this.responseUtil.errorResponse(e, message.SERVER_ERROR);
+		}
+	}
+	
+	@ApiOperation(value = "getAll coupons", notes = "apply discounts ")
+	@GetMapping(value = "/getCoupons")
+	public ResponseEntity<Object> getCoupons() {
+		try {
+			List<Discount> res = new ArrayList<>();
+			res = this.dao.getAllDiscounts();
+			return new ResponseEntity<>(res, HttpStatus.OK);
+		} catch (Exception e) {
+			return this.responseUtil.errorResponse(e, message.SERVER_ERROR);
+		}
+	}
+	
+	@ApiOperation(value = "cancel  booking", notes = "cancel my booking")
+	@PostMapping(value = "/cancelBooking")
+	public ResponseEntity<Object> getCoupons(@RequestBody BookingResponse req) {
+		Map<String,String> map=new HashMap<String, String>();
+		try {
+			List<Discount> res = new ArrayList<>();
+			res = this.dao.updateBookingStatus(req);
+			map.put("message", "Success");
+			return new ResponseEntity<>(map, HttpStatus.OK);
+		} catch (Exception e) {
+			return this.responseUtil.errorResponse(e, message.SERVER_ERROR);
+		}
+	}
+	
+}

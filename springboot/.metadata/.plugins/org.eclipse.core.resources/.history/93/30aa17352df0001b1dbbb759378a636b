@@ -1,0 +1,17 @@
+package com.app.FlightUser.ReqRes;
+
+import javax.persistence.Column;
+
+public class PassengerReq {
+
+	private Integer passengerid;
+
+	private String passengerName;
+
+	private Integer age;
+
+	private String preferences;
+
+	private String email;
+
+}

@@ -1,0 +1,67 @@
+package com.app.FightAdmin;
+
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import com.app.FlightAdmin.Controller.UserController;
+import com.app.FlightAdmin.Dao.UserDao;
+import com.app.FlightAdmin.Model.User;
+
+@ExtendWith(MockitoExtension.class)
+@RunWith(JUnitPlatform.class)
+class UserControllerTestCases {
+
+	// Example link ---
+	// https://howtodoinjava.com/spring-boot2/testing/rest-controller-unit-test-example/
+
+	@InjectMocks
+	UserController userController;
+
+	@Mock
+	UserDao userDao;
+
+	@BeforeEach
+	void setUp() throws Exception {
+	}
+
+	@Test
+	void testRegister() {
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
+		User userObj=new User();
+		
+		when(userDao.fetchUser(any(User.class))).thenReturn(userObj);
+
+		User user = new User();
+		ResponseEntity<Object> responseEntity = userController.login(user);
+		Map<String,Object> map=(Map<String, Object>) responseEntity.getBody();
+		assertThat(responseEntity.getStatusCode()).isEqualTo(200);
+		assertThat(responseEntity.hasBody()).isEqualTo(true);
+		assertThat(map.get("message")).isEqualTo("Success");
+		assertThat(map.get("user")).isEqualTo("Success");
+	}
+
+	@Test
+	void testLogin() {
+		fail("Not yet implemented");
+	}
+
+}

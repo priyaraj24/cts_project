@@ -1,0 +1,38 @@
+package com.app.FlightUser.ServiceImpl;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.app.FlightUser.Dao.BookingDao;
+import com.app.FlightUser.ReqRes.BookingRequest;
+import com.app.FlightUser.ReqRes.BookingResponse;
+import com.app.FlightUser.Service.BookingService;
+
+@Service
+public class BookingServiceImpl implements BookingService {
+
+	@Autowired
+	BookingDao bookingDao;
+
+	@Override
+	public List<BookingResponse> searchFlights(BookingRequest req) {
+		List<BookingResponse> finalData=new ArrayList<BookingResponse>();
+		List<Object[]>queryRes= this.bookingDao.searchFlights(req);
+		for (Object[] object : queryRes) {
+			BookingResponse res=new BookingResponse();
+			res.setFlightName((String) object[0]);
+			res.setFlightNumber((String) object[1]);
+			res.setFrom((String) object[2]);
+			res.setTo((String) object[3]);
+			res.setOnwards((Date) object[4]);
+			res.setTowards((Date) object[5]);
+			res.setPrice((int) object[6]);
+		}
+		return finalData;
+	}
+
+}

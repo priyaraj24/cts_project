@@ -1,0 +1,22 @@
+package com.demo.security.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.demo.security.dao.UserDao;
+import com.demo.security.reqres.User;
+
+@Service
+public class UserServiceImpl implements UserService {
+
+	@Autowired
+	UserDao userDao;
+	
+	public void registerUser(User userObj) {
+		this.userDao.registerUser(userObj);
+	}
+	
+	public User login(User userObj) {
+		return this.userDao.fetchUser(userObj);
+	}
+}

@@ -1,0 +1,149 @@
+package com.app.FlightAdmin.Controller;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.app.FlightAdmin.Constants.ResponseMessage;
+import com.app.FlightAdmin.Dao.FlightDao;
+import com.app.FlightAdmin.Model.Airline;
+import com.app.FlightAdmin.Model.Flight;
+import com.app.FlightAdmin.Request.FlightRequest;
+import com.app.FlightAdmin.Service.FlightService;
+import com.app.FlightAdmin.Util.ResponseMessageUtil;
+
+import io.swagger.annotations.ApiOperation;
+
+@RestController
+@RequestMapping(value = { "/flight" })
+@SuppressWarnings("static-access")
+@CrossOrigin(origins = "http://localhost:4200")
+public class FlightController {
+
+	@Autowired
+	public ResponseMessageUtil responseUtil;
+
+	@Autowired
+	public ResponseMessage message;
+
+	@Autowired
+	public FlightService flightService;
+
+	@Autowired
+	public FlightDao dao;
+
+	@ApiOperation(value = "Save Flight", notes = "Add flight with departure Details")
+	@PostMapping(value = "/save")
+	public ResponseEntity<Object> saveFlight(@RequestBody FlightRequest req) {
+		Map<String,String> res=new HashMap<>();
+		try {
+			this.flightService.saveFlight(this.flightService.processFlightData(req), req.getAirlineId());
+			res.put("message","Success");
+			return new ResponseEntity<>(res, HttpStatus.OK);
+		} catch (Exception e) {
+			return this.responseUtil.errorResponse(e, message.SERVER_ERROR);
+		}
+	}
+	
+	@ApiOperation(value = "Update Flight", notes = "update flight with departure Details")
+	@PostMapping(value = "/update")
+	public ResponseEntity<Object> updateFlight(@RequestBody FlightRequest req) {
+		Map<String,String> res=new HashMap<>();
+		try {
+			this.flightService.saveFlight(this.flightService.processFlightData(req), req.getAirlineId());
+			res.put("message","Success");
+			return new ResponseEntity<>(res, HttpStatus.OK);
+		} catch (Exception e) {
+			return this.responseUtil.errorResponse(e, message.SERVER_ERROR);
+		}
+	}
+
+	@ApiOperation(value = "ListAll Flights", notes = "Fetch all flight Details")
+	@GetMapping(value = "/fetch")
+	public ResponseEntity<Object> fetchAllFlights() {
+		Map<String,Object> res=new HashMap<>();
+		try {
+			List<Flight> result = new ArrayList<Flight>();
+			result= this.flightService.fetchAllFlights();
+			res.put("flights", result);
+			return new ResponseEntity<>(res, HttpStatus.OK);
+		} catch (Exception e) {
+			return this.responseUtil.errorResponse(e, message.SERVER_ERROR);
+		}
+	}
+
+	@ApiOperation(value = "ListAll Airlines Names", notes = "Fetch all airline names from Details")
+	@GetMapping(value = "/fetch/flightNames")
+	public ResponseEntity<Object> fetchAllAirlineName() {
+		List<Map<String,Object>> result= new ArrayList<>();
+		try {
+			List<Flight> res = new ArrayList<>();
+			res = this.flightService.fetchAllFlights();
+			res.stream().forEach(x->
+			{
+				Map<String,Object> temp= new HashMap<>();
+				temp.put("id", x.getFlightId());
+				temp.put("label", x.getAirlineName());
+				result.add(temp);
+			});
+			//finalData.put("dropdown", result);
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		} catch (Exception e) {
+			return this.responseUtil.errorResponse(e, message.SERVER_ERROR);
+		}
+	}
+	
+	@ApiOperation(value = "ListAll Flights", notes = "Fetch all flight Details")
+	@GetMapping(value = "/fetch/airlineName/{id}")
+	public ResponseEntity<Object> fetchAirlineName(@PathVariable(value="id") int id) {
+		Map<String,Object> res=new HashMap<>();
+		try {
+			String airlineName;
+			airlineName= this.dao.fetchAirlineNameByFlightid(id);
+			res.put("name", airlineName);
+			return new ResponseEntity<>(res, HttpStatus.OK);
+		} catch (Exception e) {
+			return this.responseUtil.errorResponse(e, message.SERVER_ERROR);
+		}
+	}
+
+	@ApiOperation(value = "ListAll Flights", notes = "Fetch all flight Details")
+	@GetMapping(value = "/fetch/airlineId/{id}")
+	public ResponseEntity<Object> fetchAirlineId(@PathVariable(value="id") int id) {
+		Map<String,Object> res=new HashMap<>();
+		try {
+			int airlineId;
+			airlineId= this.dao.fetchAirlineIdByFlightid(id);
+			res.put("id", airlineId);
+			return new ResponseEntity<>(res, HttpStatus.OK);
+		} catch (Exception e) {
+			return this.responseUtil.errorResponse(e, message.SERVER_ERROR);
+		}
+	}
+	
+	@ApiOperation(value = "Delete Flight", notes = "Fetch flight details by flightId and delete Object")
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<Object> delete(@PathVariable(value = "id") int flightId) {
+		Map<String,String> res=new HashMap<>();
+		boolean isRemoved = dao.delete(this.dao.findById(flightId));
+		if (!isRemoved) {
+			res.put("message", "Not Found");
+			return new ResponseEntity<>(res,HttpStatus.NOT_FOUND);
+		}
+		res.put("message", "Success");
+		return new ResponseEntity<>(res, HttpStatus.OK);
+	}
+}

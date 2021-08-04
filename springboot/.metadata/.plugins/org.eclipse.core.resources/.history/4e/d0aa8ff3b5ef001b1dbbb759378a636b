@@ -1,0 +1,74 @@
+package com.app.FlightUser.ReqRes;
+
+import java.util.Date;
+import java.util.List;
+
+import com.app.FlightUser.Model.Passenger;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties
+public class BookingRequest {
+
+	private String type;
+
+	private String from;
+
+	private String to;
+
+	private Date onwards;
+
+	@JsonIgnore
+	private Date towards;
+
+	private String pnrNumber;
+
+	private int price;
+
+	private int seats;
+
+	private String status;
+	
+	private List<Passenger> passenger;
+
+	public String getTo() {
+		return to;
+	}
+
+	public void setTo(String to) {
+		this.to = to;
+	}
+
+	public Date getOnwards() {
+		return onwards;
+	}
+
+	public void setOnwards(Date onwards) {
+		this.onwards = onwards;
+	}
+
+	public Date getTowards() {
+		return towards;
+	}
+
+	public void setTowards(Date towards) {
+		this.towards = towards;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getFrom() {
+		return from;
+	}
+
+	public void setFrom(String from) {
+		this.from = from;
+	}
+
+}

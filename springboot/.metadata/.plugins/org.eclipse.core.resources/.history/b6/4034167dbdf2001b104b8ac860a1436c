@@ -1,0 +1,6 @@
+# Reference link -- https://www.javainuse.com/spring/boot-jwt
+server.port=8181
+
+jwt.secret=spring-security
+
+

@@ -1,0 +1,15 @@
+package com.app.FlightUser.Model;
+
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+public class Passenger {
+
+	
+	@ManyToOne
+	@JsonIgnore
+	@JoinColumn(referencedColumnName = "flight_id", name = "flight_id")
+	private BookFlight book;
+}

@@ -1,0 +1,50 @@
+package com.app.FlightAdmin.DaoImpl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.app.FlightAdmin.Dao.DepartureDao;
+import com.app.FlightAdmin.Model.Departure;
+
+@Repository
+@Transactional
+@SuppressWarnings("unchecked")
+public class DepartureDaoImpl implements DepartureDao {
+	
+	@Autowired
+	SessionFactory sessionFactory;
+
+	@Override
+	public void saveDeparture(Departure dept) {
+		this.sessionFactory.getCurrentSession().saveOrUpdate(dept);
+	}
+
+	@Override
+	public List<Departure> fetchAllFlights() {
+		try {
+			List<Departure> list = new ArrayList<>();
+	        list= sessionFactory.getCurrentSession().createQuery("FROM Departure").list();
+			return list;
+		} catch (Exception e) {
+			return new ArrayList<>();
+		}
+	}
+
+	@Override
+	public Departure findById(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean delete(Departure dept) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}

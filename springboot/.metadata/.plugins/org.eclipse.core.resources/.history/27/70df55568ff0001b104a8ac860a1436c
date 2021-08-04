@@ -1,0 +1,38 @@
+package com.app.FightAdmin;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
+
+import com.app.FlightAdmin.Controller.UserController;
+import com.app.FlightAdmin.Dao.UserDao;
+
+@RunWith(MockitoJUnitRunner.class)
+public class UserControllerTests {
+
+	@InjectMocks
+	UserController controller;
+
+	@Mock
+	UserDao dao;
+
+	@Before
+	public void init() {
+		MockitoAnnotations.initMocks(this);
+	}
+
+	@Test
+	public void getEmployeeByIdTest() {
+		when(dao.getEmployeeById(1)).thenReturn(new EmployeeVO(1, "Lokesh", "Gupta", "user@email.com"));
+
+		EmployeeVO emp = manager.getEmployeeById(1);
+
+		assertEquals("Lokesh", emp.getFirstName());
+		assertEquals("Gupta", emp.getLastName());
+		assertEquals("user@email.com", emp.getEmail());
+	}
+}

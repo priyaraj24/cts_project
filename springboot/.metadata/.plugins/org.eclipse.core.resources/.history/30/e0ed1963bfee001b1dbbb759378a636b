@@ -1,0 +1,10 @@
+package com.app.FlightUser.ServiceImpl;
+
+import org.springframework.stereotype.Service;
+
+import com.app.FlightUser.Service.BookingService;
+
+@Service
+public class BookingServiceImpl implements BookingService {
+
+}

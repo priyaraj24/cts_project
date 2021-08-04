@@ -1,0 +1,5 @@
+package com.app.FlightUser.ReqRes;
+
+public class Booking {
+
+}

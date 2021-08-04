@@ -1,0 +1,121 @@
+<p-panel>
+    <p-button icon="pi pi-search" label="Search Flight" (click)="showBasicDialog2()" style="margin-left: 800px;padding-bottom: 20px;margin-bottom: 50px;"> </p-button>
+    <p-dialog header="Search Flight" [(visible)]="displayBasic2" [style]="{width: '70vw'}" [baseZIndex]="10000">
+      
+    <div class="card">
+      
+      <div class="card-body">
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                                        
+                    <div class="form-group">  
+                            <label for="type" style="color: black;">Choose your Journey Type</label>
+                            <div  style="margin-top: 10px;">
+                                <input id="oneway" type="radio"  value="oneway" name="type" formControlName="type">
+                                <label for="oneway" style="color: black;margin-left: 5px;">One-Way Trip</label>
+                            </div>
+                            <div  style="margin-top: 10px;">
+                                <input id="round" type="radio"  value="round" name="type" formControlName="type" >
+                                <label for="round" style="color: black;margin-left: 5px;">Round Trip</label>
+                            </div>
+                            <div *ngIf="submitted && f.invalid">Please select one option</div>
+                        </div>  
+
+                       
+                        <div class="form-group"  style="margin-top: 10px;">  
+                            <label for="from" style="color: black;">Travel From:</label>  
+                            <select formControlName="from" class="form-control" >  
+                                <option hidden="">Choose FromJourney</option>
+                                <option *ngFor="let x of fromList"  [ngValue]="x">{{x}}</option>  
+                            </select>  
+                            
+                        </div> 
+
+                        <div class="form-group"  style="margin-top: 10px;">  
+                            <label for="to" style="color: black;">Travel To:</label>  
+                            <select formControlName="to" class="form-control" >  
+                                <option hidden="">Choose ToJourney</option>
+                                <option *ngFor="let x of toList" [ngValue]="x">{{x}}</option>  
+                            </select>  
+                        </div> 
+
+
+                        <div class="form-group" style="margin-top: 10px;width: 300px;">
+                            <label for="onwards" style="color: black;">Onwards Date</label>
+                            <input type="date" formControlName="onwards" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.onwards.errors }" />
+                            <div *ngIf="submitted && f.onwards.errors" class="invalid-feedback">
+                                <div *ngIf="f.onwards.errors.required">onwards is required</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group"  style="margin-top:-58px;width: 300px;margin-left: 400px;">
+                            <label for="towards" style="color: black;">Towards Date</label>
+                            <input type="date" formControlName="onwards" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.towards.errors }" />
+                            <div *ngIf="submitted && f.towards.errors" class="invalid-feedback">
+                                <div *ngIf="f.towards.errors.required">towards is required</div>
+                            </div>
+                        </div>
+              <div class="form-group">
+                  <button class="btn btn-primary" style="margin-top: 20px;">
+                      Search
+                  </button>
+                  <!-- <a routerLink="/login" style="margin-top: 20px;" class="btn btn-link">Login</a> -->
+              </div>
+          </form>
+      </div>
+  </div>
+   
+</p-dialog>
+
+    <p-table  [value]="elements">
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                SEARCH FLIGHT DETAILS
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Flight Name</th>
+                <th>Flight Number</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Journey DateTime</th>
+                <th>Return DateTime</th>
+                <th>Price</th>
+                <th>ACTION</th>
+            </tr>
+        </ng-template>
+         <ng-template pTemplate="body" let-temp >
+            <tr >
+                <td>
+                    {{temp.flightName}}
+                </td>
+                <td>
+                    {{temp.flightNumber}}
+                </td>
+                <td>
+                    {{temp.from}}
+                </td>
+                <td>
+                    {{temp.to}}
+                </td>
+                <td>
+                    {{temp.onwards | date:'shortDate'}}
+                </td>
+                <td>
+                    {{temp.towards | date:'shortDate'}}
+                </td>
+                <td>
+                    {{temp.price}}
+                </td>
+                
+                <td> 
+                    <p-toast></p-toast>
+                    <p-confirmPopup></p-confirmPopup>
+                    <p-button id="alignn" (click)="handleBook($event,temp)"> Book </p-button>
+            
+                </td>
+             
+            </tr>
+        </ng-template>     
+    </p-table>
+</p-panel>

@@ -1,0 +1,62 @@
+package com.app.FlightUser.ReqRes;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class BookingRequest {
+
+	private String type;
+
+	private String from;
+	
+	private String to;
+	
+	private Date onwards;
+	
+	private String towards;
+	
+	
+
+	public String getTo() {
+		return to;
+	}
+
+	public void setTo(String to) {
+		this.to = to;
+	}
+
+	public Date getOnwards() {
+		return onwards;
+	}
+
+	public void setOnwards(Date onwards) {
+		this.onwards = onwards;
+	}
+
+	public Date getTowards() {
+		return towards;
+	}
+
+	public void setTowards(Date towards) {
+		DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+		this.towards = df.format(towards);
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getFrom() {
+		return from;
+	}
+
+	public void setFrom(String from) {
+		this.from = from;
+	}
+
+}

@@ -1,0 +1,46 @@
+package com.app.FlightAdmin.ServiceImpl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.app.FlightAdmin.Dao.DepartureDao;
+import com.app.FlightAdmin.Dao.FlightDao;
+import com.app.FlightAdmin.Model.Airline;
+import com.app.FlightAdmin.Model.Departure;
+import com.app.FlightAdmin.Model.Flight;
+import com.app.FlightAdmin.Request.DepartureRequest;
+import com.app.FlightAdmin.Service.DepartureService;
+
+@Service
+public class DepartureServiceImpl implements DepartureService {
+
+	@Autowired
+	DepartureDao departureDao;
+	
+	@Autowired
+	FlightDao flightDao;
+
+	@Override
+	public void saveDeparture(Flight flight) {
+		this.departureDao.saveFlight(flight);
+	}
+
+	@Override
+	public List<Airline> fetchAllFlights() {
+		return null;
+	}
+
+	@Override
+	public Object processFlightData(DepartureRequest dept) {
+		Departure departure=new Departure();
+		departure.setDepartureFrom(dept.getFrom());
+		departure.setDepartureTo(dept.getTo());
+		departure.setDeparture(dept.getDeparture());
+		departure.setArrival(dept.getArrival());
+		departure.setPrice(dept.getPrice());
+		departure.setFlight(flightDao.findById(dept.getFlightId()));
+		this.departureDao.saveFlight(flight);
+	}
+}

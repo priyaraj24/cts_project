@@ -1,0 +1,5 @@
+package com.app.FlightUser.Service;
+
+public interface BookingService {
+
+}

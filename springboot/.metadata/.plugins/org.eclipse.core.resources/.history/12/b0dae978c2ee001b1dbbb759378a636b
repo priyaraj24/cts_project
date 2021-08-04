@@ -1,0 +1,14 @@
+package com.app.FlightUser.ReqRes;
+
+import java.util.Date;
+
+public class BookingResponse {
+	private String flightNumber;
+	private String flightName;
+	private String from;
+	private String to;
+	private Date onwards;
+	private Date towards;
+	private int price;
+
+}
